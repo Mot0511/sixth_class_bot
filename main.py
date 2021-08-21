@@ -20,7 +20,7 @@ now_day + 1
 to_sep = 31 - now_day
 to_sep = to_sep * 24
 hour = date.hour
-to_sep += (24 - hour)
+to_sep += (24 - hour) - 3
 
 
 
