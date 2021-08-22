@@ -1,12 +1,13 @@
 import telebot
 import random
 from datetime import datetime
+from telethon import *
 
 token = open('token.txt', 'r').read()
 bot = telebot.TeleBot(token)
 
 keyboard = telebot.types.ReplyKeyboardMarkup()
-keyboard.row('Осталось...', 'Рандомное число')
+keyboard.row('Осталось...', 'Рандомное число', 'Кто здесь?')
 
 
 @bot.message_handler(commands=['start'])
@@ -36,6 +37,7 @@ def start_message(message):
 
     elif message.text.lower() == 'рандомное число':
         bot.send_message(message.chat.id, random.random())
+
 
 
 bot.polling()
