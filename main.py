@@ -94,6 +94,9 @@ def start_message(message):
         audio = open('sounds/' + str(gachi[random.randint(-1, len(gachi) - 1)]), 'rb')
         bot.send_audio(message.chat.id, audio)
 
+    elif el_list(message.text.lower(), 'можешь'):
+        bot.send_message(message.chat.id, open('skills.txt', 'r', encoding="utf-8").read())
+
     # elif message.text.lower() == 'что сейчас по коронавирусу':
     #     get_covid()
 
