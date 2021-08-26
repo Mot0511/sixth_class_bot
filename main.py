@@ -1,7 +1,10 @@
 import telebot
 import random
 from datetime import datetime
-import weather
+from weather import *
+from covid import *
+from get_image import *
+
 
 bot = telebot.TeleBot(open('bot.txt', 'r').read())
 
@@ -17,9 +20,12 @@ keyboard_kmb.row('Выйти из игры')
 
 hello = ['привет', 'приветствую']
 affairs = ['хорошо', 'нормально']
-employ = ['гуляю', 'ем', 'купаюсь', 'сплю', 'с тобой разговариваю', 'играю в БрОуЛь СтАрС', 'играю в Геометри дэш', 'играю в га...ой...в Майнкрафт', 'ничего', 'разговариваю с другим ботом']
+employ = ['с тобой разговариваю', 'играю в БрОуЛь СтАрС', 'играю в Геометри дэш', 'играю в гача...ой...в Майнкрафт', 'ничего', 'разговариваю с другим ботом']
 months = ["", "январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь"]
 kmb = ["камень", "ножницы", "бумага"]
+gachi = ['1.mp3', '2.mp3', '3.mp3', '4.mp3', '5.mp3', '6.mp3', '7.mp3', '8.mp3', '9.mp3', '10.mp3',
+         '11.mp3', '12.mp3', '13.mp3', '14.mp3', '15.mp3', '16.mp3', '17.mp3']
+
 is_kmb_game = False
 
 give_comp = ''
@@ -49,21 +55,32 @@ def start_kmb(user):
     elif comp == 'камень' and user == 'бумага':
         return 1
 
+
     elif comp == 'ножницы' and user == 'ножницы':
         return 2
 
     elif comp == 'ножницы' and user == 'бумага':
         return 0
 
+    elif comp == 'ножницы' and user == 'камень':
+        return 1
+
+
     elif comp == 'бумага' and user == 'бумага':
         return 2
+
+    elif comp == 'бумага' and user == 'камень':
+        return 0
+
+    elif comp == 'бумага' and user == 'ножницы':
+        return 1
 
 
 
 date = datetime.now()
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, 'Это бот созданный специално для 6б класса', reply_markup=keyboard)
+    bot.send_message(message.chat.id, 'Привет! Меня зовут ' + open('config/bot_name.txt', 'r', encoding="utf-8").read() + '. Версия бота ' + open('config/version.txt', 'r').read(), reply_markup=keyboard)
     is_kmb_game = False
 
 @bot.message_handler(content_types=['text'])
@@ -73,8 +90,18 @@ def start_message(message):
         global is_kmb_game
         is_kmb_game = True
 
+    elif message.text.lower() == 'gachi':
+        audio = open('sounds/' + str(gachi[random.randint(-1, len(gachi) - 1)]), 'rb')
+        bot.send_audio(message.chat.id, audio)
+
+    # elif message.text.lower() == 'что сейчас по коронавирусу':
+    #     get_covid()
+
+    # elif message.text.lower() == 'рандомная картинка из интернета':
+    #     get_image()
+
     elif message.text.lower() == 'какая сейчас погода':
-        bot.send_message(message.chat.id, "Сейчас в Кирове:" + weather.get_weather() + ' градусов', reply_markup=keyboard)
+        bot.send_message(message.chat.id, "Сейчас в Кирове:" + get_weather() + ' градусов', reply_markup=keyboard)
 
 
     elif message.text.lower() == 'выйти из игры':

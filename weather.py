@@ -15,4 +15,4 @@ def get_weather():
 
         temp.append(soup_tmp.find_all('span', attrs={'class': 'js_value tab-weather__value_l'}))
 
-        return temp[0][0].text
+        return temp[0][0].text.replace(' ', '')
