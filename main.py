@@ -3,14 +3,15 @@ import random
 from datetime import datetime
 from weather import *
 from covid import *
-from get_image import *
 
 
-bot = telebot.TeleBot(open('bot.txt', 'r').read())
+
+# bot = telebot.TeleBot(open('bot.txt', 'r').read())
+bot = telebot.TeleBot('1774009425:AAEcmwugYG_Fc17C5a1gTj8rIECtaGdMxpY')
 
 keyboard = telebot.types.ReplyKeyboardMarkup()
 keyboard.row('Осталось...', 'Давай играть в камень, ножницы, бумага')
-keyboard.row('Какая сейчас погода')
+keyboard.row('Какая сейчас погода', 'Cтатистика коронавируса')
 
 keyboard_kmb = telebot.types.ReplyKeyboardMarkup()
 keyboard_kmb.row('Камень', 'Ножницы', 'Бумага')
@@ -97,8 +98,8 @@ def start_message(message):
     elif el_list(message.text.lower(), 'можешь'):
         bot.send_message(message.chat.id, open('skills.txt', 'r', encoding="utf-8").read())
 
-    # elif message.text.lower() == 'что сейчас по коронавирусу':
-    #     get_covid()
+    elif message.text.lower() == 'статистика коронавируса':
+        get_covid()
 
     # elif message.text.lower() == 'рандомная картинка из интернета':
     #     get_image()
